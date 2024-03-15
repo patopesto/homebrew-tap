@@ -1,11 +1,11 @@
-cask "anybar" do
-  version "0.2.3"
-  sha256 "c87dbc6aff5411676a471e84905d69c671b62b93b1210bd95c9d776d087de95c"
+cask "sacn-monitor" do
+  version "1.0.0"
+  sha256 "e71f101f6ea4a9747355b1fdfd5b9a25e4307bda12a1361e1c7b69d23e22c321"
+  url "https://gitlab.com/patopest/sacn-monitor/-/releases/v#{version}/downloads/macos-universal"
+  
+  name "sACN Monitor"
+  desc "A tool to view sACN (ANSI E1.11) DMX data"
+  homepage "https://gitlab.com/patopest/sacn-monitor"
 
-  url "https://github.com/tonsky/AnyBar/releases/download/#{version}/AnyBar-#{version}.zip"
-  name "AnyBar"
-  desc "Menu bar status indicator"
-  homepage "https://github.com/tonsky/AnyBar"
-
-  app "AnyBar.app"
+  app "sACN Monitor.app"
 end
