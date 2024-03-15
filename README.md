@@ -1,5 +1,11 @@
 # Patopesto Tap
 
+Custom Homebrew tap for some of my personal projects
+
+## Casks
+
+- [sACN Monitor](https://gitlab.com/patopest/sacn-monitor)
+
 ## How do I install these formulae?
 
 `brew install patopesto/tap/<formula>`
