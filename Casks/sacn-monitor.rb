@@ -1,6 +1,6 @@
 cask "sacn-monitor" do
-  version "1.2.0"
-  sha256 "960d7c3c66660cf511acfe7b8f6f4c3eafc13708172bb05ff273a2a893054021"
+  version "1.3.0"
+  sha256 "b3e5b68b6b595dfc8c75ff826d8a5899a8c6d23488719a1aecf085225b1b8459"
   url "https://gitlab.com/patopest/sacn-monitor/-/releases/v#{version}/downloads/macos-universal"
   
   name "sACN Monitor"
