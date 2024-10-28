@@ -6,6 +6,10 @@ Custom Homebrew tap for some of my personal projects
 
 - [sACN Monitor](https://gitlab.com/patopest/sacn-monitor)
 
+## Formulas
+
+- [mdns-discovery](https://gitlab.com/patopest/mdns-discovery)
+
 ## How do I install these formulae?
 
 `brew install patopesto/tap/<formula>`
