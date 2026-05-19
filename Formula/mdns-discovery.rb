@@ -1,7 +1,7 @@
 class MdnsDiscovery < Formula
   desc "TUI for discovering mDNS/Zeroconf/Bonjour devices on your local network"
   homepage "https://gitlab.com/patopest/mdns-discovery"
-  version "1.1.1"
+  version "1.1.2"
   url "https://gitlab.com/patopest/mdns-discovery/-/archive/v#{version}/mdns-discovery-v#{version}.tar.gz"
   license "MIT"
   head "https://gitlab.com/patopest/mdns-discovery.git", branch: "master"
@@ -10,23 +10,23 @@ class MdnsDiscovery < Formula
   on_macos do
     on_arm do
       url "https://gitlab.com/patopest/mdns-discovery/-/releases/v#{version}/downloads/mdns-discovery_#{version}_Darwin_arm64.tar.gz"
-      sha256 "13bae7b5f1ff52ea574c9b924a7dd47ffc09573028f712b812c388c48154c636"
+      sha256 "955049a677c29458002bfdc7724bb82ef79af785efe5bbdcf0bc491e53e9e265"
     end
     on_intel do
       url "https://gitlab.com/patopest/mdns-discovery/-/releases/v#{version}/downloads/mdns-discovery_#{version}_Darwin_x86_64.tar.gz"
-      sha256 "c661317f99dc9b3f08aaecd99503363ad5d1811ecfc96d4cfa967bed16299ba0"
+      sha256 "d07bf17e52d1b66e00de41ba8f38d1820ca6f0ba1c9313a6b526074b2d0cbd82"
     end
   end
 
   on_linux do
     on_intel do
       url "https://gitlab.com/patopest/mdns-discovery/-/releases/v#{version}/downloads/mdns-discovery_#{version}_Linux_x86_64.tar.gz"
-      sha256 "2f3d3b34f458789690eff7b9b37ead6679ab2387927b4181cc79309de176db48"
+      sha256 "c8449ad025c035f4ae926af9f9fa5032f276a012cd97ed2c0583e0e2594b79df"
     end
     on_arm do
       if Hardware::CPU.is_64_bit?
         url "https://gitlab.com/patopest/mdns-discovery/-/releases/v#{version}/downloads/mdns-discovery_#{version}_Linux_arm64.tar.gz"
-        sha256 "858f6febd4ed0b1883448249782803b2acc16ce9164885d45239022837f6cf85"
+        sha256 "72c221775008ec36fba30bb62004c0dcf9d4beac4496a4f9ed9b634702e7d709"
       end
     end
   end
