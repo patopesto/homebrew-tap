@@ -14,7 +14,8 @@ cask "mark-text" do
 
     app "MarkText.app"
     # added from original cask to access app from cli directly
-    binary "#{appdir}/MarkText.app/Contents/MacOS/MarkText", target: "marktext"
+    command_wrapper "marktext",
+                    executable: "#{appdir}/MarkText.app/Contents/MacOS/MarkText"
 
     postflight do
       system_command "/usr/bin/xattr",
