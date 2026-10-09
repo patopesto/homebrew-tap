@@ -10,12 +10,6 @@ cask "multiviewer" do
       linux: "linux"
   url_end = on_system_conditional macos: "dmg",
                                   linux: "AppImage"
-
-  url "https://gitlab.com/api/v4/projects/patopest%2Fmultiviewer/packages/generic/multiviewer/v#{version}/Multiviewer_v#{version}_#{os}_#{arch}.#{url_end}"
-  
-  name "Multiviewer"
-  desc "A multi-protocol video monitoring tool"
-  homepage "https://gitlab.com/patopest/multiviewer"
       
   on_macos do
     app "Multiviewer.app"
@@ -24,4 +18,10 @@ cask "multiviewer" do
   on_linux do
     app_image "Multiviewer_v#{version}_linux_#{arch}.AppImage", target: "Multiviewer.AppImage"
   end
+
+  url "https://gitlab.com/api/v4/projects/patopest%2Fmultiviewer/packages/generic/multiviewer/v#{version}/Multiviewer_v#{version}_#{os}_#{arch}.#{url_end}"
+
+  name "Multiviewer"
+  desc "A multi-protocol video monitoring tool"
+  homepage "https://gitlab.com/patopest/multiviewer"
 end
