@@ -5,6 +5,7 @@ Custom Homebrew tap for some of my personal projects
 ## Casks
 
 - [sACN Monitor](https://gitlab.com/patopest/sacn-monitor)
+- [Multiviewer](https://gitlab.com/patopest/multiviewer)
 - [MarkText](https://github.com/marktext/marktext): Republished casks as it is disabled in upstream Homebrew (Gatekeeper issue, app is not signed)
 
 ## Formulas
