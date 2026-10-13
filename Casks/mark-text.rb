@@ -17,9 +17,9 @@ cask "mark-text" do
     command_wrapper "marktext",
                     executable: "#{appdir}/MarkText.app/Contents/MacOS/MarkText"
 
-    postflight do
-      system_command "/usr/bin/xattr",
-                     args: ["-d", "-r", "com.apple.quarantine", "#{appdir}/MarkText.app"]
+    postflight_steps do
+      run "/usr/bin/xattr",
+          args: ["-d", "-r", "com.apple.quarantine", "{{appdir}}/MarkText.app"]
     end
 
     zap trash: [
