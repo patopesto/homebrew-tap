@@ -24,4 +24,9 @@ cask "multiviewer" do
   name "Multiviewer"
   desc "A multi-protocol video monitoring tool"
   homepage "https://gitlab.com/patopest/multiviewer"
+
+  livecheck do
+    url "https://gitlab.com/patopest/multiviewer.git"
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
 end

@@ -1,0 +1,126 @@
+stages:
+  - bump
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH =~ /^auto\//
+      when: never
+    - when: always
+
+.tap:
+  stage: bump
+  tags:
+    - macos
+  resource_group: tap
+  variables:
+    GIT_DEPTH: "0"
+    HOMEBREW_DEVELOPER: "1"
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+  before_script:
+    - TAP_PATH="$(brew --repository)/Library/Taps/patopesto/homebrew-ci-tap"
+    - rm -rf "$TAP_PATH"
+    - mkdir -p "$(dirname "$TAP_PATH")"
+    - ln -s "$CI_PROJECT_DIR" "$TAP_PATH"
+    - git remote set-url origin "${CI_SERVER_URL}/${CI_PROJECT_PATH}.git"
+    - brew trust --tap patopesto/ci-tap
+    - git config user.name "gitlab-ci"
+    - git config user.email "gitlab-ci@bambinito.net"
+    - |
+      push_mr() {
+        local branch="$1"
+        local title="$2"
+        local description="$3"
+        local push_url="https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+
+        git fetch "$push_url" "+refs/heads/${branch}:refs/remotes/auto/${branch}" 2>/dev/null || true
+
+        local lease=""
+        if git rev-parse --verify "refs/remotes/auto/${branch}" >/dev/null 2>&1; then
+          lease="--force-with-lease=refs/heads/${branch}:$(git rev-parse "refs/remotes/auto/${branch}")"
+        fi
+
+        git push ${lease:+"$lease"} \
+          -o merge_request.create \
+          -o merge_request.target="$CI_DEFAULT_BRANCH" \
+          -o merge_request.title="$title" \
+          -o merge_request.description="$description" \
+          -o merge_request.remove_source_branch \
+          "$push_url" "$branch"
+      }
+
+# Triggered from an app repository with PACKAGE=<cask> and VERSION=<tag>.
+bump:cask:
+  extends: .tap
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline" && $PACKAGE && $VERSION
+  script:
+    - VERSION="${VERSION#v}"
+    - |
+      if [[ ! "$VERSION" =~ ^[0-9]+(\.[0-9]+)+$ ]]; then
+        echo "Skipping non-stable version $VERSION"
+        exit 0
+      fi
+    - |
+      current=$(brew info --cask --json=v2 "patopesto/ci-tap/$PACKAGE" |
+        ruby -rjson -e 'puts JSON.parse(STDIN.read)["casks"][0]["version"]')
+      if [ "$current" = "$VERSION" ]; then
+        echo "$PACKAGE is already at $VERSION"
+        exit 0
+      fi
+    - brew bump-cask-pr --write-only --no-audit --no-style --version="$VERSION" "patopesto/ci-tap/$PACKAGE"
+    - git add -A
+    - |
+      if git diff --cached --quiet; then
+        exit 0
+      fi
+    - BRANCH="auto/bump-${PACKAGE}-${VERSION}"
+    - git checkout -B "$BRANCH"
+    - git commit -m "Release $PACKAGE $VERSION"
+    - push_mr "$BRANCH" "Bump $PACKAGE to $VERSION" "Automated cask bump from multi-project CI"
+
+bump:scheduled:
+  extends: .tap
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - brew livecheck -q --json --cask --tap=patopesto/ci-tap > /tmp/livecheck.json
+    - |
+      ruby -rjson -e '
+        JSON.parse(File.read(ARGV[0])).each do |package|
+          next unless package.dig("version", "outdated")
+
+          puts [package["cask"], package.dig("version", "latest")].join("\t")
+        end
+      ' /tmp/livecheck.json > /tmp/outdated.tsv
+    - |
+      failed=0
+      while IFS=$'\t' read -r name version; do
+        [ -z "$name" ] && continue
+        echo "Bumping $name to $version"
+
+        git reset --hard "$CI_COMMIT_SHA"
+        git clean -fdq
+
+        BRANCH="auto/bump-${name}-${version}"
+        git checkout -B "$BRANCH" "$CI_COMMIT_SHA"
+
+        if ! brew bump-cask-pr --write-only --no-audit --no-style \
+            --version="$version" "patopesto/ci-tap/$name"; then
+          failed=1
+          continue
+        fi
+
+        git add -A
+        if git diff --cached --quiet; then
+          continue
+        fi
+        git commit -m "Bump $name to $version"
+
+        if ! push_mr "$BRANCH" "Bump $name to $version" \
+            "Automated scheduled cask bump from ${CI_PIPELINE_URL}"; then
+          failed=1
+        fi
+      done < /tmp/outdated.tsv
+
+      exit $failed

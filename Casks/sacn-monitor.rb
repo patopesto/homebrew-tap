@@ -8,4 +8,9 @@ cask "sacn-monitor" do
   name "sACN Monitor"
   desc "A tool to view sACN (ANSI E1.11) DMX data"
   homepage "https://gitlab.com/patopest/sacn-monitor"
+
+  livecheck do
+    url "https://gitlab.com/patopest/sacn-monitor.git"
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
 end
