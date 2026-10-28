@@ -1,9 +1,9 @@
 # Copied from https://github.com/Homebrew/homebrew-cask/blob/master/Casks/m/mark-text.rb
 cask "mark-text" do
-  version "0.21.1"
-  sha256 arm:          "329f608bbfc93d7bda33b6c570495d4d3aeffd33f5ed040ff764d1737189362c",
-         intel:        "40bc50d4bf24f1f3cfdf2b81c47eae6d3b97c9c28c65fab149eac3e1eb3a6650",
-         x86_64_linux: "b2986bed1415a215c5d0f8be378b5fb14f134d3c15c319d120eb254d28bf205f"
+  version "0.23.0"
+  sha256 arm:          "d7e9ef4fc7c7f353003fc3f34d3a56514a8b05e19298a74ed6ce13c26fe2679f",
+         intel:        "2f78980ea1c2fb7deea56a1fd61e97031457443be52631c09a1611cff5f71108",
+         x86_64_linux: "40a2697337fecfa3c821469333c4b43fcbcbfdf711ea713643e638079a547cd8"
 
   on_macos do
     arch arm: "arm64", intel: "x64"
