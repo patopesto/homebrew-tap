@@ -73,10 +73,10 @@ bump:cask:
       if git diff --cached --quiet; then
         exit 0
       fi
-    - BRANCH="auto/bump-${PACKAGE}-${VERSION}"
+    - BRANCH="release/${PACKAGE}-${VERSION}"
     - git checkout -B "$BRANCH"
-    - git commit -m "Release $PACKAGE $VERSION"
-    - push_mr "$BRANCH" "Bump $PACKAGE to $VERSION" "Automated cask bump from multi-project CI"
+    - git commit --no-gpg-sign -m "Release $PACKAGE $VERSION"
+    - push_mr "$BRANCH" "Update $PACKAGE to $VERSION" "Automated cask bump from multi-project CI"
 
 bump:scheduled:
   extends: .tap
@@ -102,7 +102,7 @@ bump:scheduled:
         git reset --hard "$CI_COMMIT_SHA"
         git clean -fdq
 
-        BRANCH="auto/bump-${name}-${version}"
+        BRANCH="auto/${name}-${version}"
         git checkout -B "$BRANCH" "$CI_COMMIT_SHA"
 
         if ! brew bump-cask-pr --write-only --no-audit --no-style \
@@ -115,9 +115,9 @@ bump:scheduled:
         if git diff --cached --quiet; then
           continue
         fi
-        git commit -m "Bump $name to $version"
+        git commit --no-gpg-sign -m "Bump $name to $version"
 
-        if ! push_mr "$BRANCH" "Bump $name to $version" \
+        if ! push_mr "$BRANCH" "Update $name to $version" \
             "Automated scheduled cask bump from ${CI_PIPELINE_URL}"; then
           failed=1
         fi
