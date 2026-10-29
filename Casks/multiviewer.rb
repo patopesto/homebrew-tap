@@ -12,6 +12,8 @@ cask "multiviewer" do
                                   linux: "AppImage"
       
   on_macos do
+    depends_on arch: :arm64
+
     app "Multiviewer.app"
   end
 
