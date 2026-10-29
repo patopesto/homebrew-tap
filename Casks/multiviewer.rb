@@ -1,8 +1,8 @@
 cask "multiviewer" do
-  version "1.0.0"
-  sha256 arm:          "33f4add23fac99f127363a2880f8c269e410da9dc8cd0623641bf122c656f10d",
-         arm64_linux:  "c579773576a734e16617c8732a31b801f464d888945b6662283414a1e7043c24",
-         x86_64_linux: "ce02b3b9c9ef239a9121213a8d4524676a66e0407394bff167235d6898cda1ab"
+  version "1.1.0"
+  sha256 arm:          "933faa95c3668d7f1c10999d90b9f44a462323ac89b61913fa779cef8197a319",
+         arm64_linux:  "cf2f105aab6758d4b8e5ad8d1d3584ee2d3dbfaf8c00828f4f0476c0d4c97030",
+         x86_64_linux: "8e0dd3ae0187c10a31dfa78f81c57b07c4327fc6f7020e916647a6c06766c742"
 
   arch arm:   "arm64",
        intel: on_system_conditional(linux: "amd64")
