@@ -6,7 +6,13 @@ Custom Homebrew tap for some of my personal projects
 
 - [sACN Monitor](https://gitlab.com/patopest/sacn-monitor)
 - [Multiviewer](https://gitlab.com/patopest/multiviewer)
-- [MarkText](https://github.com/marktext/marktext): Republished casks as it is disabled in upstream Homebrew (Gatekeeper issue, app is not signed)
+
+### Republished casks
+
+These casks are republished as they as disabled in the upstream homebrew-tap
+
+- [MarkText](https://github.com/marktext/marktext)
+- [FreeTube](https://freetubeapp.io/)
 
 ## Formulas
 
